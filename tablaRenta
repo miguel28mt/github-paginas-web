@@ -1,0 +1,26 @@
+<?php
+include_once("database_utilerias.php");
+    $idu = isset ($_REQUEST['idUsu'])?$_REQUEST['idUsu']:1;
+    $ida = isset ($_REQUEST['idAuto'])?$_REQUEST['idAuto']:1; 
+    $result = consultaRenta($idu, $ida);
+
+    print"<table align='center' class='table-responsive table-bordered table-hover table-condensed'>
+    <tr>
+    <th>Selecciona</th><th>folio</th><th>fecha</th><th>Estado</th>
+    </tr>";
+    while (!$result->EOF)
+    {
+        $id = $result->fields["idRenta"];
+        $fol = $result->fields["folio"];
+        $fec = $result->fields["fecha"];
+        $edo = $result->fields["Estado"];
+        print "<tr><td><a href='#' class='selecciona' data-id='$id' data-fol='$fol' data-fec='$fec' data-edo='$edo' >Clic</a></td><td>$fol</td><td>$fec</td><td>$edo</td>
+        </tr>";
+        $result->MoveNext();
+        
+    }
+print "</table>"
+
+
+
+?>
