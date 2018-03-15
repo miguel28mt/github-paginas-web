@@ -1,0 +1,22 @@
+<?php
+    include_once("database_utilerias.php");
+    $id =isset ($_REQUEST['idRole'])?$_REQUEST['idRole']:0;
+    $nom = $_REQUEST['NomRole'];
+    $edo = $_REQUEST['Estado'];
+    $fec = $_REQUEST['Fecha'];
+    $bot = $_REQUEST['boton'];
+    $res = 0;
+    if ($bot == "Agregar")
+    {
+        $res = agregarRole($nom,$edo,$fec);
+    }
+    if ($bot == "Actualizar")
+    {
+        $res = actualizaRole($id,$nom,$edo,$fec);
+    }
+    if ($bot == "Borrar")
+    {
+        $res = borraRole($id);
+    }
+    print $res;
+///header("Location:Marca.php")
