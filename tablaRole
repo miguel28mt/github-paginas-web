@@ -1,0 +1,23 @@
+<?php
+include_once("database_utilerias.php");
+    $result = consultaRole();
+    print"<table align='center' class='table-responsive table-bordered table-hover table-condensed'>
+    <tr>
+    <th>Selecciona</th><th>NomRole</th><th>Estado</th><th>Fecha</th>
+    </tr>";
+    while (!$result->EOF)
+    {
+        $id = $result->fields["idRole"];
+        $nom = $result->fields["NomRole"];
+        $edo = $result->fields["Estado"];
+        $fec = $result->fields["Fecha"];
+        print "<tr><td><a href='#' class='selecciona' data-id='$id' data-nom='$nom' data-edo='$edo' data-fec='$fec' >Clic</a></td><td>$nom</td><td>$edo</td><td>$fec</td>
+        </tr>";
+        $result->MoveNext();
+        
+    }
+print "</table>"
+
+
+
+?>
