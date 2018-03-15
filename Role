@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+
+		<!-- Website CSS style -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		<link rel="stylesheet" href="style.css">
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+		<title>Admin</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row main">
+				<div class="main-login main-center">
+				<h5>ROLE</h5>
+					<form class="frm" id="frm" action="actRole.php" method="get">
+						<fielset>
+						<div class="form-group">
+							<label for="idRole" class="cols-sm-2 control-label">id</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-number fa" aria-hidden="true"></i></span>
+									<input type="number" class="form-control" name="idRole" id="idRole"  placeholder="id"/>
+								</div>
+							</div>
+							
+						</div>
+                    <div class="form-group">
+							<label for="NomRole" class="cols-sm-2 control-label">Nombre del Role</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa  fa" aria-hidden="true"></i></span>
+									<input type="text" class="form-control" name="NomRole" id="NomRole"  placeholder="Ingreasa el Nombre del Role"/>
+								</div>
+							</div>
+							
+						</div>
+
+                    
+						<div class="form-group">
+							<label for="Estado" class="cols-sm-2 control-label">estado</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa  fa" aria-hidden="true"></i></span>
+									<select name="Estado" id="Estado" class="form-control col-md-2">
+                                        <option value="1">1</option>
+                                        <option value="0">0</option>
+                                     </select>
+								</div>
+							</div>
+						</div>
+
+                        
+						
+						<div class="form-group">
+							<label for="Fecha" class="cols-sm-2 control-label">Fecha</label>
+							<div class="cols-sm-10">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-calendar fa" aria-hidden="true"></i></span>
+									<input type="date" class="form-control" name="Fecha" id="Fecha"  />
+								</div>
+							</div>
+							
+						</div>
+
+						
+						
+
+						
+
+						<div class="form-group ">
+							<div class="col-md-12 col-md-offset-4">
+                   <button  class="btn btn-primary" name="boton" id="boton" value="Agregar">Agregar</button>
+                   <button class="btn btn-warning" name="boton" id="boton" value="Actualizar">Actualizar</button>
+                   <button  class="btn btn-danger" name="boton" id="boton" value="Borrar">Borrar</button>
+                   <button type="button"   class="btn btn-danger" name="boton" id="boton" value="Limpiar">Limpiar</button>
+
+                </div>
+						</div>
+						
+						</fielset>
+					</form>
+				</div>
+			</div>
+		</div>
+         <br>
+    <div id="msj" align="center"></div>
+    <div id="tabla" aligh="center"></div>
+
+		 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+    
+         <script>
+        $("#tabla").load("tablaRole.php");
+        
+        $("#tabla").on("click",".selecciona",function(){
+            $("#idRole").val($(this).attr("data-id"));
+            $("#NomRole").val($(this).attr("data-nom"));
+            $("#Estado").val($(this).attr("data-edo"));
+            $("#Fecha").val($(this).attr("data-fec"));
+        });
+        
+        $("button[type=button]").click(function(){
+            var boton = $(this).attr("value");
+            alert("Diste click en un boton: " + boton);
+            if (boton == "Limpiar")
+                
+            {
+            $("#idRole").val("");
+            $("#NomRole").val("");
+            $("#Estado").val("");
+            $("#Fecha").val("");
+            $("#NomRole").focus();
+                }
+            else
+                {
+                    var parametros = 'idRole=' + $("#idRole").val() +   "&NomRole=" + $("#NomRole").val() +
+                        "&Estado=" + $("#Estado").val() + 
+                        "&Fecha=" + $("#Fecha").val() + 
+                        "&boton=" + bot;
+                    $.ajax({
+                        url: "actRole.php",
+                        type: "GET",
+                        data:parametros,
+                        success: function(respuesta){
+                           if($.trim(respuesta) == 1)
+                               {
+                                $("#msj").html("<h3>Transaccion Exitosa</h3>");
+                                   setTimeout(function(){
+                                       $("#msj").fadeOut(2000);
+                                   },2000);
+                                   $("#idRole").val('');
+                                   $("#NomRole").val('');
+                                   $("#Fecha").val('');
+                                   $("#Estado").val('');
+                                   $("#NomRole").focus();
+                                   $("#tabla").load("tablaRole.php");
+                               }
+                            else
+                                {
+                                   $("#msj").html("<h3>Error: Transaccion No Exitosa</h3>");
+                                   setTimeout(function(){
+                                       $("#msj").fadeOut(2000);
+                                   },2000);
+                                    $("#NomRole").focus();
+                                }
+                    }
+                    }); ///fin de ajax
+                }   ///fin del else del boton limpiar
+        });
+        
+    </script>
+
+	</body>
+</html>
